@@ -1,0 +1,7 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/Pxic.DynamicUI/.vs
+/Pxic.DynamicUI/Pxic.DynamicUI/obj
+/Pxic.DynamicUI/Pxic.DynamicUI/bin

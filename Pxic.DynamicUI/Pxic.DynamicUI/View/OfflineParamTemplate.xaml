@@ -1,0 +1,56 @@
+﻿<Window x:Class="Pxic.DynamicUI.View.OfflineParamTemplate"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:Pxic.DynamicUI.View"
+        xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+        xmlns:vm="clr-namespace:Pxic.DynamicUI.ViewModel"
+        xmlns:dto="clr-namespace:Pxic.DynamicUI.DTO"
+        xmlns:userControl="clr-namespace:Pxic.DynamicUI.View.User_Controls"
+        mc:Ignorable="d"
+        WindowState="Maximized"
+        Title="OfflineParamTemplate" Height="450" Width="800">
+    <Window.DataContext>
+        <vm:OfflineParamTemplateViewModel/>
+    </Window.DataContext>
+    <Window.Resources>
+        <Style TargetType="{x:Type TreeViewItem}">
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="FontSize" Value="14"/>
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="VerticalAlignment" Value="Stretch"/>
+            <Setter Property="IsExpanded" Value="True"/>
+            <Setter Property="IsSelected" Value="{Binding Path=IsSelected, Mode=TwoWay}"/>
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="15*"/>
+            <RowDefinition Height="5*"/>
+            <RowDefinition Height="80*"/>
+        </Grid.RowDefinitions>
+
+        <userControl:HeaderUserControl Grid.Row="0" 
+                                       DeviceImage="{Binding DeviceImage}"
+                                       DeviceName="{Binding DeviceName}"
+                                       DeviceVendor="{Binding DeviceVendor}"/>
+
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="4*"/>
+            </Grid.ColumnDefinitions>
+            <TreeView Margin="10,10,0,13" x:Name="dynamicTreeView" Background="Black"
+                      ItemsSource="{Binding TreeListItems, UpdateSourceTrigger=PropertyChanged}">
+                <TreeView.Resources>
+                    <HierarchicalDataTemplate DataType="{x:Type dto:TreeItemDetail}" 
+                                              ItemsSource="{Binding Path=ItemChild, UpdateSourceTrigger=PropertyChanged}">
+                        <TextBlock Text="{Binding Path=ItemText}" />
+                    </HierarchicalDataTemplate>
+                </TreeView.Resources>
+            </TreeView>
+            <userControl:ParametersUserControl Grid.Column="1"/>
+        </Grid>
+    </Grid>
+</Window>
