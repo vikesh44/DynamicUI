@@ -6,13 +6,30 @@
              xmlns:local="clr-namespace:Pxic.DynamicUI.View.User_Controls"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <GroupBox VerticalAlignment="Top" Margin="5" Padding="5" Header="Choose Color">
-        <StackPanel>
-            <RadioButton>Blue</RadioButton>
-            <RadioButton>Red</RadioButton>
-            <RadioButton>Black</RadioButton>
-            <RadioButton>Green</RadioButton>
-            <Button>Save Settings</Button>
-        </StackPanel>
+    <GroupBox VerticalAlignment="Top" Margin="5" Padding="5" Header="{Binding GroupboxHeader, RelativeSource={RelativeSource AncestorType=UserControl}}">
+        <DataGrid ItemsSource="{Binding ConfigParameters, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                  AutoGenerateColumns="False"
+                  HorizontalAlignment="Left"
+                  VerticalAlignment="Top"
+                  RowHeight="30"
+                  HeadersVisibility="None"
+                  GridLinesVisibility="None"
+                  BorderThickness="0"
+                  IsReadOnly="True"
+                  CanUserReorderColumns="False"
+                  CanUserResizeColumns="False"
+                  CanUserSortColumns = "False"
+                  HorizontalScrollBarVisibility="Auto"
+                  VerticalScrollBarVisibility="Auto">
+            <DataGrid.Columns>
+                <DataGridTemplateColumn>
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding ParameterId}" VerticalAlignment="Center"></TextBlock>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+            </DataGrid.Columns>
+        </DataGrid>
     </GroupBox>
 </UserControl>

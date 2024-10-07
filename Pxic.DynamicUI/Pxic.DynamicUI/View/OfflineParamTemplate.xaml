@@ -43,6 +43,12 @@
             </Grid.ColumnDefinitions>
             <TreeView Margin="10,10,0,13" x:Name="dynamicTreeView" Background="Black"
                       ItemsSource="{Binding TreeListItems, UpdateSourceTrigger=PropertyChanged}">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectedItemChanged">
+                        <i:InvokeCommandAction Command="{Binding DataContext.TreeViewSelectionChanged, RelativeSource={RelativeSource AncestorType=TreeView}}" 
+                                CommandParameter="{Binding ElementName=dynamicTreeView, Path=SelectedItem}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
                 <TreeView.Resources>
                     <HierarchicalDataTemplate DataType="{x:Type dto:TreeItemDetail}" 
                                               ItemsSource="{Binding Path=ItemChild, UpdateSourceTrigger=PropertyChanged}">
@@ -50,7 +56,9 @@
                     </HierarchicalDataTemplate>
                 </TreeView.Resources>
             </TreeView>
-            <userControl:ParametersUserControl Grid.Column="1"/>
+            <userControl:ParametersUserControl Grid.Column="1" 
+                                               GroupboxHeader="{Binding TreeViewSelectedItem}"
+                                               ConfigParameters="{Binding ConfigurationParameters}"/>
         </Grid>
     </Grid>
 </Window>

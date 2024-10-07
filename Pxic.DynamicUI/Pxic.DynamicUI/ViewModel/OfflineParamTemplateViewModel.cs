@@ -1,6 +1,8 @@
 ﻿using Pxic.DynamicUI.DTO;
 using Pxic.DynamicUI.Helper;
 using System.Collections.ObjectModel;
+using System.Reflection.Metadata;
+using System.Windows.Input;
 using System.Windows.Media.Imaging;
 
 namespace Pxic.DynamicUI.ViewModel
@@ -9,19 +11,31 @@ namespace Pxic.DynamicUI.ViewModel
     {
         public OfflineParamTemplateViewModel()
         {
+            TreeViewSelectionChanged = new RelayCommand<TreeItemDetail>(TreeView_SelectionChanged);
+
             DeviceId = 1;
 
+            GetHeaderDetails();
+
+            GetTreeViewItems();
+
+            GetConfigParameterDetails();
+        }
+
+        private void GetConfigParameterDetails()
+        {
+            TreeViewSelectedItem = TreeListItems.FirstOrDefault(ti => ti.IsSelected).ItemText;
+
+            ConfigurationParameters.Add(new ConfigParam("P1.1"));
+            ConfigurationParameters.Add(new ConfigParam("P1.2"));
+            ConfigurationParameters.Add(new ConfigParam("P1.3"));
+            ConfigurationParameters.Add(new ConfigParam("P1.4"));
+            ConfigurationParameters.Add(new ConfigParam("P1.5"));
+        }
+
+        private void GetTreeViewItems()
+        {
             List<ProcedureParameter> parameters = [new ProcedureParameter("DeviceId", DeviceId)];
-
-            List<DeviceInfo> deviceDetail = DatabaseHelper.Instance.GetData<DeviceInfo>("SSP_GetDeviceInfo", parameters);
-
-            if (deviceDetail != null && deviceDetail[0] != null)
-            {
-                DeviceImage = HelperFunctions.Instance.ByteArrayToImage(deviceDetail[0].Image);
-                DeviceName = deviceDetail[0].Name;
-                DeviceVendor = deviceDetail[0].Vendor;
-            }
-
             List<DevicePageInfo> devicePages = DatabaseHelper.Instance.GetData<DevicePageInfo>("SSP_GetDevicePageInfo", parameters);
 
             foreach (DevicePageInfo pageInfo in devicePages)
@@ -36,7 +50,25 @@ namespace Pxic.DynamicUI.ViewModel
                     parentItem.ItemChild.Add(new TreeItemDetail(pageInfo.PageId, pageInfo.ItemText, pageInfo.IsSelected));
                 }
             }
-            SelectedTreeItem = TreeListItems.FirstOrDefault(ti => ti.IsSelected);
+        }
+
+        private void GetHeaderDetails()
+        {
+            List<ProcedureParameter> parameters = [new ProcedureParameter("DeviceId", DeviceId)];
+
+            List<DeviceInfo> deviceDetail = DatabaseHelper.Instance.GetData<DeviceInfo>("SSP_GetDeviceInfo", parameters);
+
+            if (deviceDetail != null && deviceDetail[0] != null)
+            {
+                DeviceImage = HelperFunctions.Instance.ByteArrayToImage(deviceDetail[0].Image);
+                DeviceName = deviceDetail[0].Name;
+                DeviceVendor = deviceDetail[0].Vendor;
+            }
+        }
+
+        private void TreeView_SelectionChanged(TreeItemDetail param)
+        {
+            TreeViewSelectedItem = param.ItemText;
         }
 
         private TreeItemDetail GetParentItem(string parentPageId, ObservableCollection<TreeItemDetail> treeItemDetails)
@@ -58,21 +90,13 @@ namespace Pxic.DynamicUI.ViewModel
             return parentItem;
         }
 
+        #region Commands Implementations
+
+        public ICommand TreeViewSelectionChanged { get; }
+
+        #endregion
+
         #region Binding Properties
-
-        private ObservableCollection<TreeItemDetail> treeListItems = [];
-        public ObservableCollection<TreeItemDetail> TreeListItems
-        {
-            get { return treeListItems; }
-            set { treeListItems = value; NotifyPropertyChanged(); }
-        }
-
-        private TreeItemDetail selectedTreeItem;
-        public TreeItemDetail SelectedTreeItem
-        {
-            get { return selectedTreeItem; }
-            set { selectedTreeItem = value; }
-        }
 
         private int deviceId;
         public int DeviceId
@@ -100,6 +124,27 @@ namespace Pxic.DynamicUI.ViewModel
         {
             get { return deviceVendor; }
             set { deviceVendor = value; NotifyPropertyChanged(); }
+        }
+
+        private ObservableCollection<TreeItemDetail> treeListItems = [];
+        public ObservableCollection<TreeItemDetail> TreeListItems
+        {
+            get { return treeListItems; }
+            set { treeListItems = value; NotifyPropertyChanged(); }
+        }
+
+        private string treeViewSelectedItem;
+        public string TreeViewSelectedItem
+        {
+            get { return treeViewSelectedItem; }
+            set { treeViewSelectedItem = value; NotifyPropertyChanged(); }
+        }
+
+        private ObservableCollection<ConfigParam> configurationParameters = [];
+        public ObservableCollection<ConfigParam> ConfigurationParameters
+        {
+            get { return configurationParameters; }
+            set { configurationParameters = value; NotifyPropertyChanged(); }
         }
 
         #endregion

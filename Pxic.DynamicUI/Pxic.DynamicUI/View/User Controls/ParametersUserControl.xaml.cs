@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Pxic.DynamicUI.DTO;
+using System.Collections.ObjectModel;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace Pxic.DynamicUI.View.User_Controls
 {
@@ -24,5 +14,31 @@ namespace Pxic.DynamicUI.View.User_Controls
         {
             InitializeComponent();
         }
+
+
+        #region Dependency Properties
+
+        public string GroupboxHeader
+        {
+            get { return (string)GetValue(GroupboxHeaderProperty); }
+            set { SetValue(GroupboxHeaderProperty, value); }
+        }
+        // Using a DependencyProperty as the backing store for GroupboxHeader.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty GroupboxHeaderProperty =
+            DependencyProperty.Register("GroupboxHeader", typeof(string), typeof(ParametersUserControl), new PropertyMetadata(string.Empty));
+
+
+        public ObservableCollection<ConfigParam> ConfigParameters
+        {
+            get { return (ObservableCollection<ConfigParam>)GetValue(ConfigParametersProperty); }
+            set { SetValue(ConfigParametersProperty, value); }
+        }
+        // Using a DependencyProperty as the backing store for ConfigParameters.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ConfigParametersProperty =
+            DependencyProperty.Register("ConfigParameters", typeof(ObservableCollection<ConfigParam>), typeof(ParametersUserControl), new PropertyMetadata(new ObservableCollection<ConfigParam>()));
+
+
+        #endregion
+
     }
 }
