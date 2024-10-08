@@ -10,6 +10,12 @@ namespace Pxic.DynamicUI.Helper
     {
         public string ConnectionString { get; set; }
 
+        /// <summary>
+        /// Updates the data in database using a specific stored procedure
+        /// </summary>
+        /// <param name="procedureName">Name of the stored procedure to be executed</param>
+        /// <param name="parameters"><see cref="List{ProcedureParameter}"/> for the stored procedure</param>
+        /// <returns>Returns the number of records updated</returns>
         public async Task<int> UpdateData(string procedureName, List<ProcedureParameter> parameters)
         {
             int recordsUpdated = 0;
@@ -41,6 +47,13 @@ namespace Pxic.DynamicUI.Helper
             return recordsUpdated;
         }
 
+        /// <summary>
+        /// Gets the first record by executing the stored procedure
+        /// </summary>
+        /// <typeparam name="T">Datatype in which data to be returned</typeparam>
+        /// <param name="procedureName">Name of the stored procedure to be executed</param>
+        /// <param name="parameters"><see cref="List{ProcedureParameter}"/> for the stored procedure</param>
+        /// <returns>Returns the first record by executing the stored procedure and convert the record in type <typeparamref name="T"/> provided by user</returns>
         public object? GetFirstRecord<T>(string procedureName, List<ProcedureParameter> parameters)
         {
             try
@@ -91,6 +104,16 @@ namespace Pxic.DynamicUI.Helper
             }
         }
 
+        /// <summary>
+        /// Gets the list of record by executing the stored procedure
+        /// </summary>
+        /// <typeparam name="T">Datatype in which data to be returned</typeparam>
+        /// <param name="procedureName">Name of the stored procedure to be executed</param>
+        /// <param name="parameters"><see cref="List{ProcedureParameter}"/> for the stored procedure</param>
+        /// <returns>Returns the list of record by executing the stored procedure and convert the records in type <typeparamref name="T"/></returns>
+        /// <exception cref="Exception">
+        /// Returns the empty lis in case of any exception
+        /// </exception>
         public List<T> GetData<T>(string procedureName, List<ProcedureParameter> parameters)
         {
             try
@@ -179,6 +202,18 @@ namespace Pxic.DynamicUI.Helper
         private static readonly object objLock = new();
 
         private static DatabaseHelper? instance = null;
+        /// <summary>
+        /// Gets the singleton instance of the <see cref="DatabaseHelper"/> class.
+        /// </summary>
+        /// <remarks>
+        /// This property ensures that only one instance of the <see cref="DatabaseHelper"/> class 
+        /// is created and provides a globally accessible point to Database operations. 
+        /// The implementation is thread-safe, using double-checked locking to ensure 
+        /// that the instance is created only once in a multithreaded environment as well.
+        /// </remarks>
+        /// <returns>
+        /// The single instance of the <see cref="DatabaseHelper"/> class.
+        /// </returns>
         public static DatabaseHelper Instance
         {
             get

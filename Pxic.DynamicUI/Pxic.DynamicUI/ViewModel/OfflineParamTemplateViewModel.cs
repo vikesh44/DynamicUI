@@ -9,6 +9,9 @@ namespace Pxic.DynamicUI.ViewModel
 {
     public class OfflineParamTemplateViewModel : ViewModelBase
     {
+        /// <summary>
+        /// Initializes a new instance of the <see cref="OfflineParamTemplateViewModel"/> class.
+        /// </summary>
         public OfflineParamTemplateViewModel()
         {
             TreeViewSelectionChanged = new RelayCommand<TreeItemDetail>(TreeView_SelectionChanged);
@@ -24,13 +27,18 @@ namespace Pxic.DynamicUI.ViewModel
             GetConfigParameterDetails(selectedcItem);
         }
 
-        private void GetConfigParameterDetails(TreeItemDetail? selectedcItem)
+        /// <summary>
+        /// Retrieves configuration parameter details for the selected tree item.
+        /// </summary>
+        /// <param name="selectedItem">The currently selected tree item detail.</param>
+
+        private void GetConfigParameterDetails(TreeItemDetail? selectedItem)
         {
-            if (selectedcItem == null)
+            if (selectedItem == null)
             {
                 return;
             }
-            TreeViewSelectedItem = selectedcItem;
+            TreeViewSelectedItem = selectedItem;
 
             List<ProcedureParameter> parameters = [new ProcedureParameter("PageId", TreeViewSelectedItem.PageId ?? string.Empty)];
             List<ConfigParam> deviceParams = DatabaseHelper.Instance.GetData<ConfigParam>("SSP_GetPageParams", parameters);
@@ -38,6 +46,9 @@ namespace Pxic.DynamicUI.ViewModel
             ConfigurationParameters = new ObservableCollection<ConfigParam>(deviceParams);
         }
 
+        /// <summary>
+        /// Fetches and organizes tree view items based on device pages from the database.
+        /// </summary>
         private void GetTreeViewItems()
         {
             List<ProcedureParameter> parameters = [new ProcedureParameter("DeviceId", DeviceId)];
@@ -57,6 +68,9 @@ namespace Pxic.DynamicUI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Retrieves device header details such as image, name, and vendor information based on the current device ID.
+        /// </summary>
         private void GetHeaderDetails()
         {
             List<ProcedureParameter> parameters = [new ProcedureParameter("DeviceId", DeviceId)];
@@ -72,11 +86,22 @@ namespace Pxic.DynamicUI.ViewModel
             }
         }
 
+        /// <summary>
+        /// Command handler that is invoked when the selected item in the tree view changes.
+        /// Updates the configuration parameters based on the newly selected tree item.
+        /// </summary>
+        /// <param name="param">The newly selected tree item detail.</param>
         private void TreeView_SelectionChanged(TreeItemDetail param)
         {
             GetConfigParameterDetails(param);
         }
 
+        /// <summary>
+        /// Recursively searches for a parent tree item based on the provided parent page ID.
+        /// </summary>
+        /// <param name="parentPageId">The ID of the parent page to find.</param>
+        /// <param name="treeItemDetails">The collection of tree item details to search within.</param>
+        /// <returns>The found parent tree item detail or <c>null</c> if not found.</returns>
         private TreeItemDetail? GetParentItem(string parentPageId, ObservableCollection<TreeItemDetail> treeItemDetails)
         {
             TreeItemDetail? parentItem = null;
@@ -98,6 +123,9 @@ namespace Pxic.DynamicUI.ViewModel
 
         #region Commands Implementations
 
+        /// <summary>
+        /// Command that gets invoked when the selection in the tree view changes.
+        /// </summary>
         public ICommand TreeViewSelectionChanged { get; }
 
         #endregion
