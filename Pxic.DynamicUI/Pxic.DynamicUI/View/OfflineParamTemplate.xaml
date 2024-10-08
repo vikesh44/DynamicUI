@@ -56,8 +56,9 @@
                     </HierarchicalDataTemplate>
                 </TreeView.Resources>
             </TreeView>
+            
             <userControl:ParametersUserControl Grid.Column="1" 
-                                               GroupboxHeader="{Binding TreeViewSelectedItem}"
+                                               GroupboxHeader="{Binding TreeViewSelectedItem.ItemText}"
                                                ConfigParameters="{Binding ConfigurationParameters}"/>
         </Grid>
     </Grid>

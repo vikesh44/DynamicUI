@@ -19,18 +19,19 @@ namespace Pxic.DynamicUI.ViewModel
 
             GetTreeViewItems();
 
-            GetConfigParameterDetails();
+            TreeItemDetail selectedcItem = TreeListItems.FirstOrDefault(ti => ti.IsSelected);
+
+            GetConfigParameterDetails(selectedcItem);
         }
 
-        private void GetConfigParameterDetails()
+        private void GetConfigParameterDetails(TreeItemDetail selectedcItem)
         {
-            TreeViewSelectedItem = TreeListItems.FirstOrDefault(ti => ti.IsSelected).ItemText;
+            TreeViewSelectedItem = selectedcItem;
 
-            ConfigurationParameters.Add(new ConfigParam("P1.1"));
-            ConfigurationParameters.Add(new ConfigParam("P1.2"));
-            ConfigurationParameters.Add(new ConfigParam("P1.3"));
-            ConfigurationParameters.Add(new ConfigParam("P1.4"));
-            ConfigurationParameters.Add(new ConfigParam("P1.5"));
+            List<ProcedureParameter> parameters = [new ProcedureParameter("PageId", TreeViewSelectedItem.PageId)];
+            List<ConfigParam> deviceParams = DatabaseHelper.Instance.GetData<ConfigParam>("SSP_GetPageParams", parameters);
+
+            ConfigurationParameters = new ObservableCollection<ConfigParam>(deviceParams);
         }
 
         private void GetTreeViewItems()
@@ -68,7 +69,7 @@ namespace Pxic.DynamicUI.ViewModel
 
         private void TreeView_SelectionChanged(TreeItemDetail param)
         {
-            TreeViewSelectedItem = param.ItemText;
+            GetConfigParameterDetails(param);
         }
 
         private TreeItemDetail GetParentItem(string parentPageId, ObservableCollection<TreeItemDetail> treeItemDetails)
@@ -133,8 +134,8 @@ namespace Pxic.DynamicUI.ViewModel
             set { treeListItems = value; NotifyPropertyChanged(); }
         }
 
-        private string treeViewSelectedItem;
-        public string TreeViewSelectedItem
+        private TreeItemDetail treeViewSelectedItem;
+        public TreeItemDetail TreeViewSelectedItem
         {
             get { return treeViewSelectedItem; }
             set { treeViewSelectedItem = value; NotifyPropertyChanged(); }
