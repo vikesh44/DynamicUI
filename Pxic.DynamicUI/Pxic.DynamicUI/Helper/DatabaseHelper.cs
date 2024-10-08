@@ -2,6 +2,7 @@
 using System.Data;
 using System.Reflection;
 using Pxic.DynamicUI.DTO;
+using System.Configuration;
 
 namespace Pxic.DynamicUI.Helper
 {
@@ -40,7 +41,7 @@ namespace Pxic.DynamicUI.Helper
             return recordsUpdated;
         }
 
-        public object GetFirstRecord<T>(string procedureName, List<ProcedureParameter> parameters)
+        public object? GetFirstRecord<T>(string procedureName, List<ProcedureParameter> parameters)
         {
             try
             {
@@ -172,9 +173,7 @@ namespace Pxic.DynamicUI.Helper
 
         private DatabaseHelper()
         {
-            ConnectionString = "Server=tcp:dynamicuisrv.database.windows.net,1433;Initial Catalog=DynamicUIDB;" +
-                               "Persist Security Info=False;User ID=vikesh;Password=Niya@123;MultipleActiveResultSets=False;" +
-                               "Encrypt=True;TrustServerCertificate=False;Connection Timeout=30;";
+            ConnectionString = ConfigurationManager.AppSettings["connectionString"] ?? string.Empty;
         }
 
         private static readonly object objLock = new();

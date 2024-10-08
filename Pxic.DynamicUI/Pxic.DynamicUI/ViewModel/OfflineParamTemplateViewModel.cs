@@ -19,16 +19,20 @@ namespace Pxic.DynamicUI.ViewModel
 
             GetTreeViewItems();
 
-            TreeItemDetail selectedcItem = TreeListItems.FirstOrDefault(ti => ti.IsSelected);
+            TreeItemDetail? selectedcItem = TreeListItems.FirstOrDefault(ti => ti.IsSelected);
 
             GetConfigParameterDetails(selectedcItem);
         }
 
-        private void GetConfigParameterDetails(TreeItemDetail selectedcItem)
+        private void GetConfigParameterDetails(TreeItemDetail? selectedcItem)
         {
+            if (selectedcItem == null)
+            {
+                return;
+            }
             TreeViewSelectedItem = selectedcItem;
 
-            List<ProcedureParameter> parameters = [new ProcedureParameter("PageId", TreeViewSelectedItem.PageId)];
+            List<ProcedureParameter> parameters = [new ProcedureParameter("PageId", TreeViewSelectedItem.PageId ?? string.Empty)];
             List<ConfigParam> deviceParams = DatabaseHelper.Instance.GetData<ConfigParam>("SSP_GetPageParams", parameters);
 
             ConfigurationParameters = new ObservableCollection<ConfigParam>(deviceParams);
@@ -41,14 +45,14 @@ namespace Pxic.DynamicUI.ViewModel
 
             foreach (DevicePageInfo pageInfo in devicePages)
             {
-                if (pageInfo.ParentPageId == null)
+                if (string.IsNullOrEmpty(pageInfo.ParentPageId))
                 {
                     TreeListItems.Add(new TreeItemDetail(pageInfo.PageId, pageInfo.ItemText, pageInfo.IsSelected));
                 }
                 else
                 {
-                    TreeItemDetail parentItem = GetParentItem(pageInfo.ParentPageId, TreeListItems);
-                    parentItem.ItemChild.Add(new TreeItemDetail(pageInfo.PageId, pageInfo.ItemText, pageInfo.IsSelected));
+                    TreeItemDetail? parentItem = GetParentItem(pageInfo.ParentPageId, TreeListItems);
+                    parentItem?.ItemChild.Add(new TreeItemDetail(pageInfo.PageId, pageInfo.ItemText, pageInfo.IsSelected));
                 }
             }
         }
@@ -61,7 +65,8 @@ namespace Pxic.DynamicUI.ViewModel
 
             if (deviceDetail != null && deviceDetail[0] != null)
             {
-                DeviceImage = HelperFunctions.Instance.ByteArrayToImage(deviceDetail[0].Image);
+                DeviceImage = HelperFunctions.Instance.ByteArrayToImage(deviceDetail[0].Image) ??
+                              new(new Uri("pack://application:,,,/Images/No Image.png", UriKind.Absolute));
                 DeviceName = deviceDetail[0].Name;
                 DeviceVendor = deviceDetail[0].Vendor;
             }
@@ -72,9 +77,9 @@ namespace Pxic.DynamicUI.ViewModel
             GetConfigParameterDetails(param);
         }
 
-        private TreeItemDetail GetParentItem(string parentPageId, ObservableCollection<TreeItemDetail> treeItemDetails)
+        private TreeItemDetail? GetParentItem(string parentPageId, ObservableCollection<TreeItemDetail> treeItemDetails)
         {
-            TreeItemDetail parentItem = null;
+            TreeItemDetail? parentItem = null;
             foreach (TreeItemDetail item in treeItemDetails)
             {
                 if (item.PageId == parentPageId)
@@ -106,21 +111,21 @@ namespace Pxic.DynamicUI.ViewModel
             set { deviceId = value; NotifyPropertyChanged(); }
         }
 
-        private BitmapImage deviceImage;
+        private BitmapImage deviceImage = new(new Uri("pack://application:,,,/Images/No Image.png", UriKind.Absolute));
         public BitmapImage DeviceImage
         {
             get { return deviceImage; }
             set { deviceImage = value; NotifyPropertyChanged(); }
         }
 
-        private string deviceName;
+        private string deviceName = string.Empty;
         public string DeviceName
         {
             get { return deviceName; }
             set { deviceName = value; NotifyPropertyChanged(); }
         }
 
-        private string deviceVendor;
+        private string deviceVendor = string.Empty;
         public string DeviceVendor
         {
             get { return deviceVendor; }
@@ -134,7 +139,7 @@ namespace Pxic.DynamicUI.ViewModel
             set { treeListItems = value; NotifyPropertyChanged(); }
         }
 
-        private TreeItemDetail treeViewSelectedItem;
+        private TreeItemDetail treeViewSelectedItem = new();
         public TreeItemDetail TreeViewSelectedItem
         {
             get { return treeViewSelectedItem; }

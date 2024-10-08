@@ -10,11 +10,6 @@ namespace Pxic.DynamicUI.DTO
             
         }
 
-        public ConfigParam(string parameterId)
-        {
-            this.parameterId = parameterId;
-        }
-
         public ConfigParam(string parameterId,
                              string name,
                              string description,
@@ -26,40 +21,40 @@ namespace Pxic.DynamicUI.DTO
                              bool isReadonly,
                              string unit)
         {
-            this.parameterId = parameterId;
-            this.name = name;
-            this.description = description;
-            this.controlType = controlType;
-            this.minValue = minValue;
-            this.maxValue = maxValue;
-            this.defaultValue = defaultValue;
-            this.validation = validation;
-            this.isReadonly = isReadonly;
-            this.unit = unit;
+            this.ParameterId = parameterId;
+            this.Name = name;
+            this.Description = description;
+            this.ControlType = controlType;
+            this.MinValue = minValue;
+            this.MaxValue = maxValue;
+            this.DefaultValue = defaultValue;
+            this.Validation = validation;
+            this.IsReadonly = isReadonly;
+            this.Unit = unit;
         }
 
-        private string parameterId;
+        private string parameterId = string.Empty;
         public string ParameterId
         {
             get { return parameterId; }
             set { parameterId = value; NotifyPropertyChanged(); }
         }
 
-        private string name;
+        private string name = string.Empty;
         public string Name
         {
             get { return name; }
             set { name = value; NotifyPropertyChanged(); }
         }
 
-        private string description;
+        private string description = string.Empty;
         public string Description
         {
             get { return description; }
             set { description = value; NotifyPropertyChanged(); }
         }
 
-        private FieldType controlType;
+        private FieldType controlType = FieldType.Number;
         public FieldType ControlType
         {
             get { return controlType; }
@@ -87,7 +82,7 @@ namespace Pxic.DynamicUI.DTO
             set { defaultValue = value; NotifyPropertyChanged(); }
         }
 
-        private string validation;
+        private string validation = string.Empty;
         public string Validation
         {
             get { return validation; }
@@ -101,7 +96,7 @@ namespace Pxic.DynamicUI.DTO
             set { isReadonly = value; NotifyPropertyChanged(); }
         }
 
-        private string unit;
+        private string unit = string.Empty;
         public string Unit
         {
             get { return unit; }

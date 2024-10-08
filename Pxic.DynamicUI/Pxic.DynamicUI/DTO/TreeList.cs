@@ -48,9 +48,9 @@ namespace Pxic.DynamicUI.DTO
 
     public class DevicePageInfo
     {
-        public string PageId { get; set; }
-        public string ItemText { get; set; }
+        public string PageId { get; set; } = string.Empty;
+        public string ItemText { get; set; } = string.Empty;
         public bool IsSelected { get; set; }
-        public string ParentPageId { get; set; }
+        public string ParentPageId { get; set; } = string.Empty;
     }
 }
