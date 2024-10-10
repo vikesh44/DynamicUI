@@ -35,12 +35,12 @@
     <GroupBox VerticalAlignment="Top" Margin="5" Padding="5" Header="{Binding GroupboxHeader, RelativeSource={RelativeSource AncestorType=UserControl}}">
         <DataGrid ItemsSource="{Binding ConfigParameters, RelativeSource={RelativeSource AncestorType=UserControl}}"
                   AutoGenerateColumns="False"
-                  HorizontalAlignment="Left"
+                  HorizontalAlignment="Stretch"
                   VerticalAlignment="Top"
-                  RowHeight="30"
+                  RowHeight="40"
+                  BorderThickness="1"
                   HeadersVisibility="None"
                   GridLinesVisibility="None"
-                  BorderThickness="0"
                   IsReadOnly="True"
                   CanUserReorderColumns="False"
                   CanUserResizeColumns="False"
@@ -50,18 +50,18 @@
                   HorizontalScrollBarVisibility="Auto"
                   VerticalScrollBarVisibility="Auto">
             <DataGrid.Columns>
-                <DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Margin="10,0" Text="{Binding ParameterId}" VerticalAlignment="Center"></TextBlock>
+                            <TextBlock Margin="10,0" Text="{Binding ParameterId}" VerticalAlignment="Center" FontSize="16"></TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <Image Width="18" Margin="10,0" Source="/Images/info.png">
+                            <Image Width="22" Source="/Images/info.png">
                                 <Image.ToolTip>
                                     <ToolTip Content="{Binding Description}" />
                                 </Image.ToolTip>
@@ -70,26 +70,40 @@
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="3*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Margin="10,0" Text="{Binding Name}" VerticalAlignment="Center"></TextBlock>
+                            <TextBlock Margin="10,0" Text="{Binding Name}" VerticalAlignment="Center" HorizontalAlignment="Right" FontSize="16"></TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="4*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Margin="10,0" Text="{Binding ControlType}" VerticalAlignment="Center"></TextBlock>
+                            <local:UserInputUserControl VerticalAlignment="Center"
+                                                        ControlType="{Binding FieldType}"
+                                                        MinValue="{Binding MinValue}"
+                                                        MaxValue="{Binding MaxValue}"
+                                                        FormattedValue="{Binding DefaultValue}" 
+                                                        DecimalPlaces="3"/>
+                            <!--<local:DecimalUserControl VerticalAlignment="Center" 
+                                                      MinValue="{Binding MinValue}"
+                                                      MaxValue="{Binding MaxValue}"
+                                                      FormattedValue="{Binding DefaultValue}" 
+                                                      DecimalPlaces="2"/>-->
+                            <!--<local:NumericUserControl VerticalAlignment="Center" 
+                                                      MinValue="{Binding MinValue}"
+                                                      MaxValue="{Binding MaxValue}"
+                                                      Value="{Binding DefaultValue}" />-->
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
 
-                <DataGridTemplateColumn>
+                <DataGridTemplateColumn Width="*">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
-                            <TextBlock Margin="10,0" Text="{Binding Unit}" VerticalAlignment="Center"></TextBlock>
+                            <TextBlock Margin="10,0" Text="{Binding Unit}" VerticalAlignment="Center" HorizontalAlignment="Left" FontSize="16"></TextBlock>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

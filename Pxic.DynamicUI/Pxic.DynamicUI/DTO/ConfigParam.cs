@@ -24,7 +24,7 @@ namespace Pxic.DynamicUI.DTO
             this.ParameterId = parameterId;
             this.Name = name;
             this.Description = description;
-            this.ControlType = controlType;
+            this.FieldType = controlType;
             this.MinValue = minValue;
             this.MaxValue = maxValue;
             this.DefaultValue = defaultValue;
@@ -54,11 +54,11 @@ namespace Pxic.DynamicUI.DTO
             set { description = value; NotifyPropertyChanged(); }
         }
 
-        private FieldType controlType = FieldType.Number;
-        public FieldType ControlType
+        private FieldType fieldType = FieldType.Numeric;
+        public FieldType FieldType
         {
-            get { return controlType; }
-            set { controlType = value; NotifyPropertyChanged(); }
+            get { return fieldType; }
+            set { fieldType = value; NotifyPropertyChanged(); }
         }
 
         private decimal minValue;

@@ -8,9 +8,10 @@ namespace Pxic.DynamicUI.Model
 {
     public enum FieldType
     {
-        Number = 0,
-        Decimal = 1,
-        String = 2,
-        Select = 3,
+        None = 0,
+        Numeric = 1,
+        Decimal = 2,
+        String = 3,
+        Select = 4,
     }
 }
