@@ -86,16 +86,8 @@
                                                         MinValue="{Binding MinValue}"
                                                         MaxValue="{Binding MaxValue}"
                                                         FormattedValue="{Binding DefaultValue}" 
-                                                        DecimalPlaces="3"/>
-                            <!--<local:DecimalUserControl VerticalAlignment="Center" 
-                                                      MinValue="{Binding MinValue}"
-                                                      MaxValue="{Binding MaxValue}"
-                                                      FormattedValue="{Binding DefaultValue}" 
-                                                      DecimalPlaces="2"/>-->
-                            <!--<local:NumericUserControl VerticalAlignment="Center" 
-                                                      MinValue="{Binding MinValue}"
-                                                      MaxValue="{Binding MaxValue}"
-                                                      Value="{Binding DefaultValue}" />-->
+                                                        DecimalPlaces="3"
+                                                        Validation="{Binding Validation}"/>
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>

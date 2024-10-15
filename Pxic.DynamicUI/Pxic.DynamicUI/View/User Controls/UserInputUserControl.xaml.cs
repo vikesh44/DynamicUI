@@ -65,6 +65,18 @@ namespace Pxic.DynamicUI.View.User_Controls
             DependencyProperty.Register("Value", typeof(decimal), typeof(UserInputUserControl),
                 new PropertyMetadata(0.0m));
 
+
+        public string Validation
+        {
+            get { return (string)GetValue(ValidationProperty); }
+            set { SetValue(ValidationProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Validation.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty ValidationProperty =
+            DependencyProperty.Register("Validation", typeof(string), typeof(UserInputUserControl), new PropertyMetadata(string.Empty));
+
+
         public decimal Value
         {
             get { return (decimal)GetValue(ValueProperty); }
@@ -117,12 +129,30 @@ namespace Pxic.DynamicUI.View.User_Controls
                         };
                         break;
                     case FieldType.Select:
+                        control.SelectedControl = new SelectUserControl()
+                        {
+                            ItemCollection = control.GetCollection(control.MinValue, control.Validation),
+                            SelectedMember = int.Parse(control.FormattedValue),
+                        };
                         break;
                     default:
                         break;
                 }
                 //control.UpdateFormattedValue();
             }
+        }
+
+        private Dictionary<int, string> GetCollection(decimal minValue, string validation)
+        {
+            string[] items = validation.Split(';');
+            Dictionary<int, string> keyValuePairs = [];
+            int key = (int)minValue;
+            foreach (string item in items)
+            {
+                keyValuePairs.Add(key, item);
+                key++;
+            }
+            return keyValuePairs;
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

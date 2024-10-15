@@ -22,6 +22,9 @@
     <Compile Update="View\User Controls\ParametersUserControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="View\User Controls\SelectUserControl.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Update="View\User Controls\UserInputUserControl.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -37,6 +40,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\User Controls\ParametersUserControl.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="View\User Controls\SelectUserControl.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="View\User Controls\UserInputUserControl.xaml">
