@@ -99,12 +99,22 @@ namespace Pxic.DynamicUI.View.User_Controls
                 switch (newValue)
                 {
                     case FieldType.Numeric:
-                        control.SelectedControl = new NumericUserControl();
+                        control.SelectedControl = new NumericUserControl()
+                        {
+                            MinValue = (int)control.MinValue,
+                            MaxValue = (int)control.MaxValue,
+                            Value = int.Parse(control.FormattedValue),
+                            DataContext = control.DataContext,
+                        };
                         break;
                     case FieldType.Decimal:
-                        control.SelectedControl = new DecimalUserControl();
-                        break;
-                    case FieldType.String:
+                        control.SelectedControl = new DecimalUserControl()
+                        {
+                            MinValue = control.MinValue,
+                            MaxValue = control.MaxValue,
+                            Value = decimal.Parse(control.FormattedValue),
+                            DataContext = control.DataContext,
+                        };
                         break;
                     case FieldType.Select:
                         break;

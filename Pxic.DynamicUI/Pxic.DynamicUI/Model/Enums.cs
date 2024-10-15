@@ -11,7 +11,6 @@ namespace Pxic.DynamicUI.Model
         None = 0,
         Numeric = 1,
         Decimal = 2,
-        String = 3,
-        Select = 4,
+        Select = 3,
     }
 }
